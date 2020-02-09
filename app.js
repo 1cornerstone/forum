@@ -20,7 +20,7 @@ const posts = require("./src/controllers/mypost");
 const filter = require("./src/controllers/filter");
 const changeroute = require("./src/controllers/changepassword");
 const account= require("./src/controllers/profile");
-var db = require("./src/core/connection");
+var db = require("./src/db/connection");
 
 
 var app = express();
