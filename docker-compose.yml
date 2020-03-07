@@ -1,0 +1,19 @@
+version: '3'
+services:
+  webapp:
+    container_name: forum
+    restart: always
+    build: .
+    ports:
+      - "3020:3020"
+    depends_on:
+      - mongo
+  mongo:
+    container_name: mongo_container
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+        - data-volume:/data/db
+volumes:
+         data-volume:

@@ -1,16 +1,15 @@
-var mongoose = require("mongoose");
-const User = require("../model/Users").User;
-var usermodel = require("../model/user");
+const User = require("../model/Users").User,
+   usermodel = require("../model/user");
 
 
-var session;
-module.exports.profile = function(req, res) {
+let session;
+const profile = (req, res)=> {
     session = req.session;
-  var username = session.username;
+  let username = session.username;
 
   User.findOne({ "username": username }, function(err, userlog) {
     if (!err) {
-      var user = new usermodel(
+      let user = new usermodel(
         userlog.name,
         userlog.username,
         userlog.email
@@ -19,5 +18,7 @@ module.exports.profile = function(req, res) {
     }
   });
 };
+
+module.exports= profile;
 
 

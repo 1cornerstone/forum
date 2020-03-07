@@ -1,9 +1,9 @@
-const { check, validationResult } = require("express-validator");
-const mongoose = require("mongoose");
-const beautifyUnique = require("mongoose-beautiful-unique-validation");
-var encryptor = require("../util/encryptor");
+const { check, validationResult } = require("express-validator"),
+    mongoose = require("mongoose"),
+    beautifyUnique = require("mongoose-beautiful-unique-validation"),
+    encryptor = require("../util/encryptor");
 
-module.exports.sign = function (req, res) {
+const sign = (req, res) =>{
   
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -11,11 +11,11 @@ module.exports.sign = function (req, res) {
   } else {
     //my util to encrypt password
     encryptor.cryptpassword(req.body.password, function(err, key) {
-      var mName = req.body.name;
-      var mEmail = req.body.email;
-      var mUsername = req.body.username;
+      let mName = req.body.name;
+      let mEmail = req.body.email;
+      let mUsername = req.body.username;
 
-      var Person = mongoose.model("Users", User);
+      let Person = mongoose.model("Users", User);
 
       const person = new Person({
         name: mName,
@@ -26,10 +26,8 @@ module.exports.sign = function (req, res) {
 
       person.save(function(err) {
         if (err) {
-
-          console.log(err + "  "+person.username)
-          var error = err.errors;
-          var key = Object.keys(error);
+          let error = err.errors;
+         let key = Object.keys(error);
 
           if (key == "username") {
             res.send("Username Already Exist.");
@@ -46,7 +44,7 @@ module.exports.sign = function (req, res) {
 };
 
 // db schema
-var User = new mongoose.Schema({
+const User = new mongoose.Schema({
   name: String,
   username: { type: String, unique: true },
   email: { type: String, unique: true },
@@ -56,3 +54,4 @@ var User = new mongoose.Schema({
 User.plugin(beautifyUnique);
 
 module.exports.User = User;
+module.exports.sign = sign;

@@ -2,18 +2,22 @@
  const app =  require('express').Router(),
      validator = require("../util/Validator");
 
+app.get('/',(req,res)=>{
+ res.send('hello')
 
- app.post("/login", validator.checkuserlog, require('../controllers/userlogin').login);
+});
+
+ app.post("/login", validator.checkuserlog, require('../controllers/userlogin'));
 
  app.post("/signup", validator.checkusersign, require('../controllers/usersignup').sign);
 
- app.post("/profile",require('../controllers/profile').profile);
+ app.post("/profile",require('../controllers/profile'));
 
  app.post("/retrivepassword", validator.retrieve, require('../controllers/retrievepassword').passkey);
 
  app.post("/verifypincode", validator.verifycode, require('../controllers/retrievepassword').verifypin); // not finished
 
- app.get("/getpost", require('../controllers/getAllpost').getpost);
+ app.get("/getpost", require('../controllers/getAllpost'));
 
  app.post("/postcontent", validator.validedatepost, require('../controllers/postcontent').post);
 
