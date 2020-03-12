@@ -23,16 +23,14 @@ const login = (req, res) => {
                         userlog.username,
                         userlog.email
                     );
-
                     encryptor.checkpassword(req.body.password, userlog.password, function (err, callback) {
                         if (callback === true) {
-                            req.session.username = user.username;
+
                             res.send("password correct ");
                         } else {
                             res.send("Password not correct" + callback);
                         }
                     });
-
                 }
             }
         });

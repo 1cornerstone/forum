@@ -4,6 +4,7 @@ const express = require("express"),
     {check, validationResult} = require("express-validator"),
     file_upload = require("express-fileupload"),
     sess = require('express-session'),
+    auth = require('./src/middlewares/auth'),
     db = require('./src/db/connection');
 
 const app = express();
@@ -27,5 +28,5 @@ app.use(
 );
 
 app.listen(3020, () => {
-    console.log(" listening")
+    console.log(" server running")
 });
