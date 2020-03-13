@@ -1,25 +1,16 @@
-var mongoose = require("mongoose");
-const postmodel = require("../model/post");
-const { check, validationResult } = require("express-validator");
-
+const mongoose = require("mongoose"),
+ postmodel = require("../model/post");
 
 module.exports.getpostby = function (req, res) {
-  
-  const errors = validationResult(req);
 
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  } else {
-    
-      var Post = mongoose.model("POST", postmodel.posts);
+  let Post = mongoose.model("POST", postmodel.posts);
+  let title = req.params.title;
 
-    var title = req.body.title;
-    console.log(req.body);
+  if (title === null || undefined) return res.send('title missing');
 
-      Post.findOne({ "title": title }, function (err, resp) {
-        if (!err) {
-          res.send(resp);
-        }
-      });
-  }
-}
+  Post.findOne({ "title": title }, function (err, resp) {
+    if (!err) {
+      res.send(resp);
+    }
+  });
+};

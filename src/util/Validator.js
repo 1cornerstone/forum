@@ -7,7 +7,7 @@ exports.checkuserlog = [
     check('email').not().isNumeric().withMessage("Username cannnot be Number"),
     check('password').not().isEmpty().withMessage("Password is  empty"),
     check('password').isLength({ min: 5 }).withMessage("Password too short minimum 5")
-]
+];
 
 
 exports.checkusersign =[
@@ -26,8 +26,8 @@ exports.checkusersign =[
     check('username').not().isNumeric().withMessage("Username can not be Number."),
 
     check('password').not().isEmpty().withMessage("Password is  empty"),
-    check('password').not().isNumeric().withMessage("Pasword can not be Number."),
-    check('password').isLength({ min: 5 }).withMessage("Password too short minimum 5")
+    check('password').not().isNumeric().withMessage("Password can not be Number."),
+    check('password').isLength({ min: 5 }).withMessage("Password too short minimum of 5")
 
 ];
 
@@ -43,22 +43,25 @@ module.exports.validedatepost = [
 
     check('title').not().isEmpty().withMessage("Title of the Post empty."),
     check('title').not().isNumeric().withMessage("Numbers Can`t be title. "),
-    check('message').not().isEmpty().withMessage("Post Content is empty."),
-    check('category').not().isEmpty().withMessage("Post Category Empty.")
-]
+    check('title').isLength({ min: 10 }).withMessage("Post title too short < 4"),
+    check('content').not().isEmpty().withMessage("Post Content is empty."),
+    check('content').isLength({ min: 10 }).withMessage("Post title too short < 10"),
+    check('category').not().isEmpty().withMessage("Post Category Empty."),
+    check('token').not().isEmpty().withMessage("token is empty")
 
-module.exports.validatetitle = [
-    check('title').not().isEmpty().withMessage("Title cannot be empty")
-]
+];
 
 module.exports.comment = [
      check("title").not().isEmpty().withMessage("Title cannot be empty"),
       check("comment").not().isEmpty().withMessage("comment cannot be empty")
 ];
 
-module.exports.filter = [
-    check('filter').not().isEmpty().withMessage("Filter is empty")
-]
+module.exports.deletepost = [
+     check("token").not().isEmpty().withMessage("Token cannot be empty"),
+      check("postID").not().isEmpty().withMessage("PostID cannot be empty")
+];
+
+
 
 module.exports.changePasskey = [
     check('password').not().isEmpty().withMessage("New Password cannot Empty"),

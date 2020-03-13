@@ -1,59 +1,37 @@
-const {check, validationResult} = require("express-validator");
-const mongoose = require("mongoose");
-const beautifyUnique = require("mongoose-beautiful-unique-validation");
-const postmodel = require("../model/post");
+const {check, validationResult} = require("express-validator"),
+    mongoose = require("mongoose"),
+    postModel = require("../model/post"),
+    auth = require('../middlewares/auth');
 
-let session;
 
-module.exports.post = function (req, res) {
+module.exports.post = async  (req, res) =>{
 
     const errors = validationResult(req);
 
-    session = req.session;
+    if (!errors.isEmpty()) return res.status(422).json({errors: errors.array()});
 
-    if (!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array()});
-    } else {
+    if (req.body.token === null || undefined) return res.send('unAuthorized'); // if user didnt provide token this will reject his request
 
-        let postModel = mongoose.model("POST", postmodel.posts);
+    let username = await auth.getSession(req.body.token).catch(err=>{});  // get user username with his token
 
-        let post = new postModel({
+    if (username === null || undefined) return res.send('unAuthorized'); // if null token have expired or not valid
+
+    let posts = mongoose.model("POST", postModel.posts);
+
+        let post = await new posts({
             title: req.body.title,
-            authorname: session.username, // username of the person post the content
-            content: req.body.message, // content of the post
+            authorname: username, // username of the person post the content
+            content: req.body.content, // content of the post
           post_type: req.body.category, //category of the post
         });
 
-        post.save(function (err, resp) {
-            if (err) {
-                res.send("Title already exist");
-            } else {
-                res.send(resp._id)
-            }
+      await  post.save(function (err, resp) {
+            if (err) return res.send("Title already exist");
+              return res.send({
+                  state:'success',
+                  postID: resp._id
+              })
         });
 
-    }
 };
 
-module.exports.deletepost = function (req, res) {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array()});
-    } else {
-
-        let title = req.body.title;
-        let post = mongoose.model("POST", postmodel.posts);
-
-        post.remove({"title": title}, function (err) {
-
-            if (!err) return res.send("Removed Successffuly");
-            console.log(err)
-        })
-
-
-    }
-
-
-};
