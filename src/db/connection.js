@@ -1,6 +1,6 @@
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://mongo:27017/forum", { useNewUrlParser: true })
+mongoose.connect("mongodb://mongo:27017/forum", { useNewUrlParser: true });
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);

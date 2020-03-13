@@ -13,24 +13,23 @@ exports.checkuserlog = [
 exports.checkusersign =[
 
     //  validate data 
-    check('name').not().isEmpty().withMessage("Username is  empty"),
-    check('name').isLength({ min: 5 }).withMessage("username too short minimum 5"),
-    check('name').not().isNumeric().withMessage("Username cannnot be Number."),
+    check('name').not().isEmpty().withMessage("name is  empty"),
+    check('name').isLength({ min: 5 }).withMessage("name too short minimum 5"),
+    check('name').not().isNumeric().withMessage("name can not be Number."),
 
-    check('email').not().isEmpty().withMessage("Email is  empty"),
-    check('email').isLength({ min: 5 }).withMessage("Email too short minimum 5"),
-    check('email').not().isNumeric().withMessage("Email cannnot be Number"),
-    check('email').isEmail().withMessage("Invalid Email."),
+    check('email').not().isEmpty().withMessage("Email is empty"),
+    check('email').isEmail().withMessage("Invalid Email"),
+    check('email').isLength({min: 5}).withMessage("Email too short, < 5"),
 
     check('username').not().isEmpty().withMessage("Username is  empty"),
     check('username').isLength({ min: 5 }).withMessage("username too short minimum 5"),
-    check('username').not().isNumeric().withMessage("Username cannnot be Number."),
+    check('username').not().isNumeric().withMessage("Username can not be Number."),
 
     check('password').not().isEmpty().withMessage("Password is  empty"),
-    check('password').not().isNumeric().withMessage("Pasword cannnot be Number."),
+    check('password').not().isNumeric().withMessage("Pasword can not be Number."),
     check('password').isLength({ min: 5 }).withMessage("Password too short minimum 5")
 
-]
+];
 
 module.exports.retrieve = [
     check('email').isEmail().withMessage("invalid Email")

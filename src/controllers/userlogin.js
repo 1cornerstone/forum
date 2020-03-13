@@ -1,7 +1,7 @@
 const {check, validationResult} = require("express-validator"),
     encryptor = require("../util/encryptor"),
-    usermodel = require("../model/user"),
-    User = require("../model/Users").User;
+    User = require("../model/Users").User,
+    auth = require('../middlewares/auth');
 
 const login = (req, res) => {
 
@@ -9,29 +9,25 @@ const login = (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(422).json({errors: errors.array()});
     } else {
-        let userEmail = req.body.email;
-        User.findOne({email: userEmail}, function (err, userlog) {
-            if (err) {
-                res.send(err);
-            } else {
-                if (userlog == null) {
-                    res.send("User doesn`t not exist");
-                } else {
-                    //insert into user model
-                    let user = new usermodel(
-                        userlog.name,
-                        userlog.username,
-                        userlog.email
-                    );
-                    encryptor.checkpassword(req.body.password, userlog.password, function (err, callback) {
-                        if (callback === true) {
 
-                            res.send("password correct ");
-                        } else {
-                            res.send("Password not correct" + callback);
-                        }
-                    });
-                }
+        User.findOne({username: req.body.username}, function (err, payload) {
+            if (!err) {
+                if (payload == null) return res.send("User does not exist");
+
+                encryptor.checkpassword(req.body.password, payload.password, function (err, callback) {
+                    if (callback === true) {
+                        auth.createSession(req.body.username).then(data => {
+                            res.send({
+                                token: data,
+                                access: 'granted'
+                            });
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    } else {
+                        res.send("Password not correct");
+                    }
+                });
             }
         });
     }

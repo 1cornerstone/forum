@@ -4,14 +4,14 @@ const express = require("express"),
     {check, validationResult} = require("express-validator"),
     file_upload = require("express-fileupload"),
     sess = require('express-session'),
-    auth = require('./src/middlewares/auth'),
+    cors = require('cors'),
     db = require('./src/db/connection');
 
 const app = express();
 
-app.use('/', require('./src/routes/index'));
 app.use(body_p.urlencoded({extended: true}));
 app.use(body_p.json());
+
 app.use(
     sess({
         secret: "cornerstone",
@@ -26,6 +26,10 @@ app.use(check());
 app.use(
     file_upload({})
 );
+app.use(cors());
+
+app.use('/', require('./src/routes/index'));
+
 
 app.listen(3020, () => {
     console.log(" server running")
