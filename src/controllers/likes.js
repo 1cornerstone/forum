@@ -1,49 +1,48 @@
-var mongoose = require("mongoose");
-const postmodel = require("../model/post");
+const mongoose = require("mongoose"),
+    postmodel = require("../model/post"),
+    { check, validationResult } = require("express-validator"),
+    auth = require('../middlewares/auth');
 
-var session;
+module.exports.like = async (req, res) => {
 
-module.exports.like = function (req, res) {
-  
-  session = req.session;
-  console.log(session.id);
-  console.log(session.username);
+ let errors = validationResult(req);
 
-  var topic = req.body.title;
-  var username = session.username;
+  if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
 
-  var post = mongoose.model("POST", postmodel.posts);
+    if (req.body.token === null || undefined) return res.send('unAuthorized');
 
-  post.updateOne(
-    { title: topic },
-    {
-      $addToSet: {
-        likes: username
-      }
-    },
-    function(err, response) {
-      if (!err) {
-        res.send("Liked");
-      }
-    }
-  );
+    let username = await auth.getSession(req.body.token).catch(err => {});
+
+    if (username === null || undefined) return res.send('unAuthorized');
+
+  let postID = req.body.postID;
+
+  let post = mongoose.model("POST", postmodel.posts);
+
+    post.updateOne({_id: postID},
+        {
+            $addToSet: {
+                likes: username
+            },
+        },
+        function (err, response) {
+            if (!err) {
+              return   res.send("Liked");
+            }
+        });
 };
 
-module.exports.mylikes = function (req, res) {
-  
-  session = req.session;
-  console.log(session.id);
-  console.log(session.username);
+module.exports.mylikes = async (req, res)=> {
 
-  var Post = mongoose.model("POST", postmodel.posts);
-  
-   var username = session.username;
+    if (req.params.token === null || undefined) return res.send('unAuthorized');
 
-   Post.find({ likes: username }, function(err, resp) {
-     if (!err) {
-       res.send(resp);
-     }
-   });
+    let username = await auth.getSession(req.params.token).catch(err => {});
 
+    if (username === null || undefined) return res.send('unAuthorized');
 
-}
+   let Post = mongoose.model("POST", postmodel.posts);
+    Post.find({likes: username}, function (err, resp) {
+        if (!err) return res.send(resp);
+    });
+
+};

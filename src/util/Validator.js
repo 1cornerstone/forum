@@ -52,9 +52,16 @@ module.exports.validedatepost = [
 ];
 
 module.exports.comment = [
-     check("title").not().isEmpty().withMessage("Title cannot be empty"),
-      check("comment").not().isEmpty().withMessage("comment cannot be empty")
+     check("postID").not().isEmpty().withMessage("PostID cannot be empty"),
+    check("token").not().isEmpty().withMessage("Token cannot be empty"),
+    check("comment").not().isEmpty().withMessage("comment cannot be empty")
 ];
+
+module.exports.likes = [
+     check("postID").not().isEmpty().withMessage("PostID cannot be empty"),
+    check("token").not().isEmpty().withMessage("Token cannot be empty"),
+];
+
 
 module.exports.deletepost = [
      check("token").not().isEmpty().withMessage("Token cannot be empty"),
@@ -62,10 +69,9 @@ module.exports.deletepost = [
 ];
 
 
-
 module.exports.changePasskey = [
+    check("token").not().isEmpty().withMessage("Token cannot be empty"),
     check('password').not().isEmpty().withMessage("New Password cannot Empty"),
     check('password').isLength({min:4}).withMessage("New Password length is must greater than "),
-     check('newpassword').not().isEmpty().withMessage("Confirm Password  cannot Empty"),
-    check('newpassword').not().isString().withMessage("Confirm Password  is required not String")
+     check('newPassword').not().isEmpty().withMessage("Confirm Password  cannot Empty"),
 ]

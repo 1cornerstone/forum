@@ -22,23 +22,26 @@
 
  app.post("/deletepost", require('../controllers/deletepost').deletepost);
 
+ app.post("/comment", validator.comment, require('../controllers/comment').postcomment);
+
+ app.post("/likes",validator.likes, require('../controllers/likes').like);
+
+ app.get("/mylikes/:token", require('../controllers/likes').mylikes);
+
+ app.post('/changepassword', validator.changePasskey, require('../controllers/changepassword').changepassword);
 
 
 
-
+ //not updated
  app.post("/retrivepassword", validator.retrieve, require('../controllers/retrievepassword').passkey);
 
  app.post("/verifypincode", validator.verifycode, require('../controllers/retrievepassword').verifypin); // not finished
 
  app.post("/postfile", require('../controllers/postfile').file);
 
- app.post("/comment", validator.comment, require('../controllers/comment').postcomment);
 
- app.post("/likes", require('../controllers/likes').like);
 
- app.post("/mylikes", require('../controllers/likes').mylikes);
 
- app.post('/changepassword', validator.changePasskey, require('../controllers/changepassword').changepassword);
 
 
 module.exports = app;

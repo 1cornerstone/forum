@@ -1,10 +1,11 @@
 
-var mongoose = require("mongoose");
-const postmodel = require("../model/post");
-const { check, validationResult } = require("express-validator");
+const mongoose = require("mongoose"),
+    postmodel = require("../model/post"),
+    { check, validationResult } = require("express-validator"),
+    auth = require('../middlewares/auth');
 
 
-module.exports.postcomment = function (req, res) {
+module.exports.postcomment = async (req, res)=> {
     
     const errors = validationResult(req);
 
@@ -12,21 +13,30 @@ module.exports.postcomment = function (req, res) {
         return res.status(422).json({ errors: errors.array() });
     } else {
 
-        var topic = req.body.title;
-        var comment = req.body.comment;
+        if (req.body.token === null || undefined) return res.send('unAuthorized');
 
-        var post = mongoose.model("POST", postmodel.posts);
+        let username = await auth.getSession(req.body.token).catch(err=>{});
 
-        post.update({ title: topic },
+        if (username === null || undefined) return res.send('unAuthorized');
+
+        let postID = req.body.postID;
+        let comment = req.body.comment;
+
+        let commentObj = {
+         "name": username,
+            "comment":comment,
+            "date":Date.now()
+        };
+
+        let post = mongoose.model("POST", postmodel.posts);
+        post.update({ _id: postID },
             {
                 $addToSet: {
-                    "comment": comment
-                }
+                    "comment": commentObj
+                },
+                $inc: {"comment_count":1}
             }, function (err, response) {
-
-                if (!err) {
-                    res.send(response)
-                }
+                if (!err) return res.send("commented")
             })
      }
-}
+};
