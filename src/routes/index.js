@@ -4,44 +4,44 @@
 
  app.get('/',(req,res)=>{res.send('working')});
 
- app.post("/login", validator.checkuserlog, require('../controllers/userlogin'));
+ app.post("/login", validator.checkuserlog, require('../controllers/userLoginController'));
 
- app.post("/signup", validator.checkusersign, require('../controllers/usersignup').sign);
+ app.post("/signup", validator.checkusersign, require('../controllers/userSignUpController').sign);
 
- app.get("/profile/:token",require('../controllers/profile'));
+ app.get("/profile/:token",require('../controllers/profileController'));
 
- app.post("/postcontent", validator.validedatepost, require('../controllers/postcontent').post);
+ app.post("/postcontent", validator.validedatepost, require('../controllers/postContentController').post);
 
- app.get("/getposts", require('../controllers/getAllpost'));
+ app.get("/getposts", require('../controllers/getAllPostController'));
 
- app.get("/postfilter/:category",require('../controllers/filter').postfilter);
+ app.get("/postfilter/:category",require('../controllers/filterController').postfilter);
 
- app.get("/getbytitle/:title", require('../controllers/getpostbytitle').getpostby);
+ app.get("/getbytitle/:title", require('../controllers/getPostByTitleController').getpostby);
 
- app.get("/myposts/:token", require('../controllers/mypost').mypost);
+ app.get("/myposts/:token", require('../controllers/myPostController').mypost);
 
- app.post("/deletepost", require('../controllers/deletepost').deletepost);
+ app.post("/deletepost", require('../controllers/deletePostController').deletepost);
 
- app.post("/comment", validator.comment, require('../controllers/comment').postcomment);
+ app.post("/comment", validator.comment, require('../controllers/commentController').postcomment);
 
- app.post("/likes",validator.likes, require('../controllers/likes').like);
+ app.post("/likes",validator.likes, require('../controllers/likesController').like);
 
- app.get("/mylikes/:token", require('../controllers/likes').mylikes);
+ app.get("/mylikes/:token", require('../controllers/likesController').mylikes);
 
- app.post('/changepassword', validator.changePasskey, require('../controllers/changepassword').changepassword);
+ app.post('/changepassword', validator.changePasskey, require('../controllers/changePasswordController').changepassword);
+
+ app.get('/logout/:token',require('../controllers/logoutController'));
+
+ app.get('/delAccount/:token',require('../controllers/delAccountController'));
 
 
 
  //not updated
- app.post("/retrivepassword", validator.retrieve, require('../controllers/retrievepassword').passkey);
+ app.post("/retrivepassword", validator.retrieve, require('../controllers/retrievePasswordController').passkey);
 
- app.post("/verifypincode", validator.verifycode, require('../controllers/retrievepassword').verifypin); // not finished
+ app.post("/verifypincode", validator.verifycode, require('../controllers/retrievePasswordController').verifypin); // not finished
 
- app.post("/postfile", require('../controllers/postfile').file);
-
-
-
-
+ app.post("/postfile", require('../controllers/postFileController').file);
 
 
 module.exports = app;

@@ -10,8 +10,6 @@ let session;
 module.exports.file = function (req, res) {
 
   session = req.session;
-  console.log(session.id);
-  console.log(session.username);
 
  let username = session.username;
 
