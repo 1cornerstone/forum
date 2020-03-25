@@ -1,14 +1,15 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const beautifyUnique = require("mongoose-beautiful-unique-validation");
 
-var User = new mongoose.Schema({
+const User = new mongoose.Schema({
   name: String,
   username: { type: String, unique: true },
   email: { type: String, unique: true },
-  password: String
+  password: String,
+  misc: Array //space to add any column
 });
 
 User.plugin(beautifyUnique);
 
-var Person = mongoose.model("User", User);
-module.exports.User = Person;
+const users = mongoose.model("Users", User);
+module.exports.User =users;

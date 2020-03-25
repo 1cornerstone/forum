@@ -1,6 +1,6 @@
 
 const mongoose = require("mongoose"),
-    postmodel = require("../model/post"),
+    post = require("../model/post"),
     { check, validationResult } = require("express-validator"),
     auth = require('../middlewares/auth');
 
@@ -28,7 +28,6 @@ module.exports.postcomment = async (req, res)=> {
             "date":Date.now()
         };
 
-        let post = mongoose.model("POST", postmodel.posts);
         post.update({ _id: postID },
             {
                 $addToSet: {

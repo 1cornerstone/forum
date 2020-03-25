@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const beautifyUnique = require("mongoose-beautiful-unique-validation");
 
-var posts = new mongoose.Schema({
+const Posts = new mongoose.Schema({
   title: { type: String, unique: true }, // title of the post
   authorname: String, // username of the person post the content
   content: String, // content of the post
@@ -13,6 +13,7 @@ var posts = new mongoose.Schema({
   likes: Array // username of those that viewed it
 });
 
-posts.plugin(beautifyUnique);
+Posts.plugin(beautifyUnique);
 
-module.exports.posts = posts;
+ const post =  mongoose.model("POST", Posts);
+module.exports = post;

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose"),
-    postmodel = require("../model/post"),
+    post = require("../model/post"),
     { check, validationResult } = require("express-validator"),
     auth = require('../middlewares/auth');
 
@@ -16,8 +16,6 @@ module.exports.like = async (req, res) => {
     if (username === null || undefined) return res.send('unAuthorized');
 
   let postID = req.body.postID;
-
-  let post = mongoose.model("POST", postmodel.posts);
 
     post.updateOne({_id: postID},
         {
@@ -40,8 +38,7 @@ module.exports.mylikes = async (req, res)=> {
 
     if (username === null || undefined) return res.send('unAuthorized');
 
-   let Post = mongoose.model("POST", postmodel.posts);
-    Post.find({likes: username}, function (err, resp) {
+    post.find({likes: username}, function (err, resp) {
         if (!err) return res.send(resp);
     });
 

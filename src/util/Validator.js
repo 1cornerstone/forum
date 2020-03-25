@@ -32,11 +32,19 @@ exports.checkusersign =[
 ];
 
 module.exports.retrieve = [
-    check('email').isEmail().withMessage("invalid Email")
+    check('email').isEmail().withMessage("invalid Email"),
+
 ]
 
 module.exports.verifycode = [
-    check('pin').isNumeric().withMessage("Enter Number")
+    check('pin').isNumeric().withMessage("Enter Number"),
+    check('pin').isLength({min: 6}).withMessage("Email too short, < 5"),
+
+    check('email').not().isEmpty().withMessage("Email is empty"),
+    check('email').isEmail().withMessage("Invalid Email"),
+    check('email').isLength({min: 5}).withMessage("Email too short, < 5"),
+    check('newPassword').not().isEmpty().withMessage("Password is  empty"),
+    check('newPassword').not().isNumeric().withMessage("Password can not be Number."),
 ]
 
 module.exports.validedatepost = [

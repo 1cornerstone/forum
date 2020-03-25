@@ -1,6 +1,5 @@
-const mongoose = require("mongoose"),
+const
     User = require("../model/Users").User,
-    postmodel = require("../model/post"),
     encryptor = require("../util/encryptor"),
     auth = require('../middlewares/auth'),
     {check, validationResult} = require("express-validator");

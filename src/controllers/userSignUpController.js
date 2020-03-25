@@ -1,6 +1,5 @@
 const { check, validationResult } = require("express-validator"),
-    mongoose = require("mongoose"),
-    beautifyUnique = require("mongoose-beautiful-unique-validation"),
+    User = require("../model/Users").User,
     encryptor = require("../util/encryptor"),
     auth = require('../middlewares/auth');
 
@@ -15,9 +14,8 @@ const sign = (req, res) =>{
     //encrypt User password
     encryptor.cryptpassword(req.body.password, function(err, key) {
 
-      let Users = mongoose.model("Users",Userschema);
 
-      const user = new Users({
+      const user = new User({
         name: req.body.name,
         username: req.body.username,
         email:req.body.email,
@@ -49,16 +47,4 @@ const sign = (req, res) =>{
     });
   }
 };
-
-// db schema
-const Userschema = new mongoose.Schema({
-  name: String,
-  username: { type: String, unique: true },
-  email: { type: String, unique: true },
-  password: String
-});
-
-Userschema.plugin(beautifyUnique);
-
-module.exports.User = Userschema;
 module.exports.sign = sign;

@@ -1,7 +1,6 @@
 
 const {check, validationResult} = require("express-validator"),
-    mongoose = require("mongoose"),
-    postModel = require("../model/post"),
+    post = require("../model/post"),
     auth = require('../middlewares/auth');
 
 module.exports.deletepost = async (req, res)=> {
@@ -19,7 +18,6 @@ module.exports.deletepost = async (req, res)=> {
         if (username === null || undefined) return res.send('unAuthorized');
 
         let postID = req.body.postID;
-        let post = mongoose.model("POST", postModel.posts);
 
         post.remove({"_id": postID}, function (err) {
             if (!err) return res.send("Removed Successffuly");

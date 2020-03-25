@@ -1,34 +1,35 @@
-var nodemailer = require("nodemailer");
-var gpc = require("generate-pincode");
+const nodemailer = require("nodemailer");
+const gpc = require("generate-pincode");
 
 
-var mailing = nodemailer.createTransport({
+const mailing = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  service:"gmail.com",
   port: 587,
+  secure:false,
+  requireTLS: true,
   auth: {
     user: "akintundeayofesegun@gmail.com",
-    pass: ""
+    pass: "akindev@1"
   }
 });
 
 //generate Pin to send to the User
-var pin = gpc(6);
+const pin = gpc(6);
 
-var mailOptions = {
+const mailOptions = {
   from: "forum@admin.com",
-  to: "recipientemail@gmail",
+  to: "akindev05@gmail.com",
   subject: "Forum Password Forgotten ",
   text: "Your password reset pin is "+ pin
 };
 
-module.exports.sendmail = function(callback) {
+const sendmail = function(callback) {
   
   mailing.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      callback(null, pin);
-    }
+    if (error)  return  console.log(error);
+      return  callback(null, pin);
   });
 };
+
+module.exports = sendmail;
+

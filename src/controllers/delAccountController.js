@@ -1,4 +1,4 @@
-const {auth} = require('../middlewares/auth'),
+const auth = require('../middlewares/auth'),
     User = require("../model/Users").User,
     sessionStore = require('../db/redis');
 

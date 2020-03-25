@@ -1,5 +1,5 @@
 const mongoose = require("mongoose"),
-  postmodel = require("../model/post"),
+  posts = require("../model/post"),
     auth = require('../middlewares/auth');
 
 
@@ -11,11 +11,9 @@ module.exports.mypost = async (req, res)=> {
 
     if (username === null || undefined) return res.send('unAuthorized'); // if null token have expired or not valid
 
-    let Post = mongoose.model("POST", postmodel.posts);
-
-  Post.find({authorname: username},function(err, resp) {
-      if (!err) {
-        res.json(resp);
-      }
+     posts.find({authorname: username},function(err, resp) {
+          if (!err) {
+            res.json(resp);
+          }
     });
 };

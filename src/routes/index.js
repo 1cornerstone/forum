@@ -34,14 +34,13 @@
 
  app.get('/delAccount/:token',require('../controllers/delAccountController'));
 
+ app.post("/retrievePassword", validator.retrieve, require('../controllers/retrievePasswordController').passkey);
+
+ app.post("/verifyPinCode", validator.verifycode, require('../controllers/retrievePasswordController').verifypin);
 
 
  //not updated
- app.post("/retrivepassword", validator.retrieve, require('../controllers/retrievePasswordController').passkey);
 
- app.post("/verifypincode", validator.verifycode, require('../controllers/retrievePasswordController').verifypin); // not finished
-
- app.post("/postfile", require('../controllers/postFileController').file);
-
+ app.post("/postFile", require('../controllers/postFileController').file);
 
 module.exports = app;

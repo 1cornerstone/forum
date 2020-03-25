@@ -1,8 +1,6 @@
-const mongoose = require("mongoose"),
- postmodel = require("../model/post");
+const Post = require("../model/post");
 
 module.exports.postfilter = function(req, res) {
-  let Post = mongoose.model("POST", postmodel.posts);
 
   let category = req.params.category;
 
