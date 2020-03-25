@@ -2,7 +2,7 @@
  const app =  require('express').Router(),
      validator = require("../util/Validator");
 
- app.get('/',(req,res)=>{res.send('working')});
+ app.get('/',(req,res)=>{res.send('hello world ')});
 
  app.post("/login", validator.checkuserlog, require('../controllers/userLoginController'));
 
@@ -41,6 +41,6 @@
 
  //not updated
 
- app.post("/postFile", require('../controllers/postFileController').file);
+ app.post("/postFile", require('../controllers/postFileController').file); // not done
 
 module.exports = app;
