@@ -8,8 +8,8 @@ const mailing = nodemailer.createTransport({
   secure:false,
   requireTLS: true,
   auth: {
-    user: "akintundeayofesegun@gmail.com",
-    pass: "akindev@1"
+    user: "youremail@gmail.com",
+    pass: "yourpassword"
   }
 });
 
@@ -18,7 +18,7 @@ const pin = gpc(6);
 
 const mailOptions = {
   from: "forum@admin.com",
-  to: "akindev05@gmail.com",
+  to: "usermail@gmail.com",
   subject: "Forum Password Forgotten ",
   text: "Your password reset pin is "+ pin
 };
